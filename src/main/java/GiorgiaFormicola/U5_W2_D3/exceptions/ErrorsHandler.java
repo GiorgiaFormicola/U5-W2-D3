@@ -1,6 +1,7 @@
 package GiorgiaFormicola.U5_W2_D3.exceptions;
 
 import GiorgiaFormicola.U5_W2_D3.payloads.ErrorPayload;
+import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,4 +16,11 @@ public class ErrorsHandler {
     public ErrorPayload handleBadRequest(BadRequestException ex) {
         return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
     }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorPayload handleBadRequest(PropertyReferenceException ex) {
+        return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
+    }
+
 }
