@@ -20,33 +20,37 @@ public class ErrorsHandler {
         return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
     }
 
-    @ExceptionHandler(PropertyReferenceException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorPayload handleBadRequest(PropertyReferenceException ex) {
-        return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
-    }
-
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorPayload handleBadRequest(NotFoundException ex) {
         return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
     }
 
+    //Per queryParam non corrispondente a proprietà
+    @ExceptionHandler(PropertyReferenceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorPayload handleBadRequest(PropertyReferenceException ex) {
+        return new ErrorPayload("Not valid search param.", LocalDateTime.now());
+    }
+
+    //Per formato UUID errato
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorPayload handleBadRequest(MethodArgumentTypeMismatchException ex) {
-        return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
+        return new ErrorPayload("Not valid ID provided.", LocalDateTime.now());
     }
 
+    //Per valori del Json di cui non riesce a fare il parse
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorPayload handleBadRequest(HttpMessageNotReadableException ex) {
-        return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
+        return new ErrorPayload("Not valid value provided.", LocalDateTime.now());
     }
 
+    //Per violazione length varchar
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorPayload handleBadRequest(DataIntegrityViolationException ex) {
-        return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
+        return new ErrorPayload("Not valid value provide", LocalDateTime.now());
     }
 }
