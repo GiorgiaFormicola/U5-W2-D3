@@ -36,4 +36,10 @@ public class AuthorsController {
         return this.authorsService.findById(authorId);
     }
 
+    @PutMapping("/{authorId}")
+    public Author getAuthorByIdAndUpdate(@PathVariable UUID authorId, @RequestBody AuthorPayload body) {
+        return this.authorsService.findByIdAndUpdate(authorId, body);
+    }
+
+    
 }

@@ -40,4 +40,20 @@ public class AuthorsService {
     public Author findById(UUID authorId) {
         return this.authorsRepository.findById(authorId).orElseThrow(() -> new NotFoundException("author", authorId));
     }
+
+    public Author findByIdAndUpdate(UUID authorId, AuthorPayload body) {
+        Author found = this.findById(authorId);
+        if (!found.getEmail().equals(body.getEmail())) {
+            if (this.authorsRepository.existsByEmail(body.getEmail()))
+                throw new BadRequestException("Email address " + body.getEmail() + " already in use!");
+        }
+        found.setName(body.getName());
+        found.setSurname(body.getSurname());
+        found.setEmail(body.getEmail());
+        found.setBirthDate(body.getBirthDate());
+        found.setAvatarURL("https://ui-avatars.com/api/?name=" + body.getName() + "+" + body.getSurname());
+        Author updatedAuthor = this.authorsRepository.save(found);
+        log.info("Author with id " + updatedAuthor.getId() + " successfully modified");
+        return updatedAuthor;
+    }
 }
