@@ -51,16 +51,8 @@ public class BlogPostsService {
         return found;
     }
 
-    /*
-
-
-
-
-
-    public void findByIdAndDelete(long blogPostId) {
+    public void findByIdAndDelete(UUID blogPostId) {
         BlogPost found = this.findById(blogPostId);
-        this.blogPostsDB.remove(found);
-    }*/
-
-
+        this.blogPostsRepository.delete(found);
+    }
 }

@@ -41,17 +41,9 @@ public class BlogPostsController {
         return this.blogPostsService.findByIdAndUpdate(blogPostId, body);
     }
 
-    /*
-
-
-
-
-
-
-
     @DeleteMapping("/{blogPostId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void getBlogPostByIdAndDelete(@PathVariable long blogPostId) {
+    public void getBlogPostByIdAndDelete(@PathVariable UUID blogPostId) {
         this.blogPostsService.findByIdAndDelete(blogPostId);
-    }*/
+    }
 }
