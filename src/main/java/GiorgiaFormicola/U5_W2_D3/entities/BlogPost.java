@@ -33,7 +33,7 @@ public class BlogPost {
     private int readingTime;
 
     @ManyToOne
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
     public BlogPost(String category, String title, String content, int readingTime, Author author) {
