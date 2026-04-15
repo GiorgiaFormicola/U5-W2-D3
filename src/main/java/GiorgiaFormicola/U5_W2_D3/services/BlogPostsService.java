@@ -41,19 +41,21 @@ public class BlogPostsService {
         return this.blogPostsRepository.findById(blogPostId).orElseThrow(() -> new NotFoundException("blog post", blogPostId));
     }
 
+    public BlogPost findByIdAndUpdate(UUID blogPostId, BlogPostPayload body) {
+        BlogPost found = this.findById(blogPostId);
+        found.setAuthor(this.authorsService.findById(body.getAuthorId()));
+        found.setCategory(body.getCategory());
+        found.setTitle(body.getTitle());
+        found.setContent(body.getContent());
+        found.setReadingTime(body.getReadingTime());
+        return found;
+    }
+
     /*
 
 
 
-    public BlogPost findByIdAndUpdate(long blogPostId, BlogPostPayload body) {
-        BlogPost found = this.findById(blogPostId);
-        found.setCategory(body.getCategory());
-        found.setTitle(body.getTitle());
-        found.setContent(body.getContent());
-        found.setCoverURL(body.getCoverURL());
-        found.setReadingTime(body.getReadingTime());
-        return found;
-    }
+
 
     public void findByIdAndDelete(long blogPostId) {
         BlogPost found = this.findById(blogPostId);

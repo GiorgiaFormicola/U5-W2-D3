@@ -36,16 +36,18 @@ public class BlogPostsController {
         return this.blogPostsService.findById(blogPostId);
     }
 
+    @PutMapping("/{blogPostId}")
+    public BlogPost getBlogPostByIdAndUpdate(@PathVariable UUID blogPostId, @RequestBody BlogPostPayload body) {
+        return this.blogPostsService.findByIdAndUpdate(blogPostId, body);
+    }
+
     /*
 
 
 
 
 
-    @PutMapping("/{blogPostId}")
-    public BlogPost getBlogPostByIdAndUpdate(@PathVariable long blogPostId, @RequestBody BlogPostPayload body) {
-        return this.blogPostsService.findByIdAndUpdate(blogPostId, body);
-    }
+
 
     @DeleteMapping("/{blogPostId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
