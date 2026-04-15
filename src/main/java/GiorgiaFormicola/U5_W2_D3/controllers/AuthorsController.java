@@ -4,6 +4,7 @@ import GiorgiaFormicola.U5_W2_D3.entities.Author;
 import GiorgiaFormicola.U5_W2_D3.payloads.AuthorPayload;
 import GiorgiaFormicola.U5_W2_D3.services.AuthorsService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,16 @@ public class AuthorsController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Author saveAuthor(@RequestBody AuthorPayload body) {
-        return this.authorsService.saveAuthor(body);
+        return this.authorsService.save(body);
+    }
+
+    @GetMapping
+    public Page<Author> getAuthors(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "surname") String sortBy
+    ) {
+        return this.authorsService.findAll(page, size, sortBy);
     }
 
 }

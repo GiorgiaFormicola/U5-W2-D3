@@ -6,6 +6,10 @@ import GiorgiaFormicola.U5_W2_D3.payloads.AuthorPayload;
 import GiorgiaFormicola.U5_W2_D3.repositories.AuthorsRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -14,12 +18,19 @@ import org.springframework.stereotype.Service;
 public class AuthorsService {
     private AuthorsRepository authorsRepository;
 
-    public Author saveAuthor(AuthorPayload body) {
+    public Author save(AuthorPayload body) {
         if (this.authorsRepository.existsByEmail(body.getEmail()))
             throw new BadRequestException("Email address " + body.getEmail() + " already in use!");
         Author newAuthor = new Author(body.getName(), body.getSurname(), body.getEmail(), body.getBirthDate());
         Author savedAuthor = authorsRepository.save(newAuthor);
         log.info("Author with id " + savedAuthor.getId() + " successfully saved");
         return savedAuthor;
+    }
+
+    public Page<Author> findAll(int page, int size, String sortBy) {
+        if (page < 0) page = 0;
+        if (size < 0 || size > 100) size = 5;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.authorsRepository.findAll(pageable);
     }
 }
