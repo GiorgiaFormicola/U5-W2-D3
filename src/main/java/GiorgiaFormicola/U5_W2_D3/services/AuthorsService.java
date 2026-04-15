@@ -56,4 +56,9 @@ public class AuthorsService {
         log.info("Author with id " + updatedAuthor.getId() + " successfully modified");
         return updatedAuthor;
     }
+
+    public void findByIdAndDelete(UUID authorId) {
+        Author found = this.findById(authorId);
+        this.authorsRepository.delete(found);
+    }
 }
