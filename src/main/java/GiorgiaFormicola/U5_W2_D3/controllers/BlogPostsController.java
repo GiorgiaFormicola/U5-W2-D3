@@ -4,6 +4,7 @@ import GiorgiaFormicola.U5_W2_D3.entities.BlogPost;
 import GiorgiaFormicola.U5_W2_D3.payloads.BlogPostPayload;
 import GiorgiaFormicola.U5_W2_D3.services.BlogPostsService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,16 @@ public class BlogPostsController {
         return this.blogPostsService.save(body);
     }
 
-    /*@GetMapping
-    public List<BlogPost> getAllBlogPosts() {
-        return this.blogPostsService.findAll();
+    @GetMapping
+    public Page<BlogPost> getBlogPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy
+    ) {
+        return this.blogPostsService.findAll(page, size, sortBy);
     }
+
+    /*
 
     @GetMapping("/{blogPostId}")
     public BlogPost getBlogPostById(@PathVariable long blogPostId) {

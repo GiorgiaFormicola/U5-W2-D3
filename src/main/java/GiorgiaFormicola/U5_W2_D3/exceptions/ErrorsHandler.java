@@ -1,6 +1,7 @@
 package GiorgiaFormicola.U5_W2_D3.exceptions;
 
 import GiorgiaFormicola.U5_W2_D3.payloads.ErrorPayload;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -40,6 +41,12 @@ public class ErrorsHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorPayload handleBadRequest(HttpMessageNotReadableException ex) {
+        return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorPayload handleBadRequest(DataIntegrityViolationException ex) {
         return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
     }
 }

@@ -6,6 +6,10 @@ import GiorgiaFormicola.U5_W2_D3.payloads.BlogPostPayload;
 import GiorgiaFormicola.U5_W2_D3.repositories.BlogPostsRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -23,9 +27,14 @@ public class BlogPostsService {
         return savedBlogPost;
     }
 
-    /*public List<BlogPost> findAll() {
-        return this.blogPostsDB;
+    public Page<BlogPost> findAll(int page, int size, String sortBy) {
+        if (page < 0) page = 0;
+        if (size < 0 || size > 100) size = 10;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.blogPostsRepository.findAll(pageable);
     }
+
+    /*
 
     public BlogPost findById(long blogPostId) {
         Optional<BlogPost> found = blogPostsDB.stream().filter(blogPost -> blogPost.getId() == blogPostId).findAny();
