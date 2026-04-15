@@ -2,6 +2,7 @@ package GiorgiaFormicola.U5_W2_D3.services;
 
 import GiorgiaFormicola.U5_W2_D3.entities.Author;
 import GiorgiaFormicola.U5_W2_D3.entities.BlogPost;
+import GiorgiaFormicola.U5_W2_D3.exceptions.NotFoundException;
 import GiorgiaFormicola.U5_W2_D3.payloads.BlogPostPayload;
 import GiorgiaFormicola.U5_W2_D3.repositories.BlogPostsRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -34,13 +37,13 @@ public class BlogPostsService {
         return this.blogPostsRepository.findAll(pageable);
     }
 
+    public BlogPost findById(UUID blogPostId) {
+        return this.blogPostsRepository.findById(blogPostId).orElseThrow(() -> new NotFoundException("blog post", blogPostId));
+    }
+
     /*
 
-    public BlogPost findById(long blogPostId) {
-        Optional<BlogPost> found = blogPostsDB.stream().filter(blogPost -> blogPost.getId() == blogPostId).findAny();
-        if (found.isEmpty()) throw new NotFoundException("blog post", blogPostId);
-        else return found.get();
-    }
+
 
     public BlogPost findByIdAndUpdate(long blogPostId, BlogPostPayload body) {
         BlogPost found = this.findById(blogPostId);

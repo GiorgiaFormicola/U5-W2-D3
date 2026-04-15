@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/blogPosts")
 @AllArgsConstructor
@@ -29,12 +31,14 @@ public class BlogPostsController {
         return this.blogPostsService.findAll(page, size, sortBy);
     }
 
-    /*
-
     @GetMapping("/{blogPostId}")
-    public BlogPost getBlogPostById(@PathVariable long blogPostId) {
+    public BlogPost getBlogPostById(@PathVariable UUID blogPostId) {
         return this.blogPostsService.findById(blogPostId);
     }
+
+    /*
+
+
 
 
 
