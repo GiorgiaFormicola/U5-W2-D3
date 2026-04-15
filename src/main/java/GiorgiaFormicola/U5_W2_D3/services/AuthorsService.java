@@ -2,6 +2,7 @@ package GiorgiaFormicola.U5_W2_D3.services;
 
 import GiorgiaFormicola.U5_W2_D3.entities.Author;
 import GiorgiaFormicola.U5_W2_D3.exceptions.BadRequestException;
+import GiorgiaFormicola.U5_W2_D3.exceptions.NotFoundException;
 import GiorgiaFormicola.U5_W2_D3.payloads.AuthorPayload;
 import GiorgiaFormicola.U5_W2_D3.repositories.AuthorsRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -32,5 +35,9 @@ public class AuthorsService {
         if (size < 0 || size > 100) size = 5;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return this.authorsRepository.findAll(pageable);
+    }
+
+    public Author findById(UUID authorId) {
+        return this.authorsRepository.findById(authorId).orElseThrow(() -> new NotFoundException("author", authorId));
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/authors")
 @AllArgsConstructor
@@ -27,6 +29,11 @@ public class AuthorsController {
             @RequestParam(defaultValue = "surname") String sortBy
     ) {
         return this.authorsService.findAll(page, size, sortBy);
+    }
+
+    @GetMapping("/{authorId}")
+    public Author getAuthorById(@PathVariable UUID authorId) {
+        return this.authorsService.findById(authorId);
     }
 
 }
