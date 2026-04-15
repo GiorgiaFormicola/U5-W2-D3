@@ -1,7 +1,12 @@
 package GiorgiaFormicola.U5_W2_D3.payloads;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.time.LocalDate;
 
+@AllArgsConstructor
+@Getter
 public class AuthorPayload {
     private String name;
     private String surname;
